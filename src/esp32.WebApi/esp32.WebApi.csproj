@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\esp32.Business\esp32.Business.csproj" />
+    <ProjectReference Include="..\esp32.DA.Abstraction\esp32.DA.Abstraction.csproj" />
+    <ProjectReference Include="..\esp32.DA\esp32.DA.csproj" />
+    <ProjectReference Include="..\esp32.Mapper\esp32.Mapper.csproj" />
+  </ItemGroup>
+
+
+</Project>

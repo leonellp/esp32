@@ -1,0 +1,1 @@
+﻿dotnet ef dbcontext scaffold "Host = localhost; Database = esp32; Username = glpontani; Password = 1234" Npgsql.EntityFrameworkCore.PostgreSQL -o ..\esp32.DA.Abstractions\Models -n esp32.DA.Abstractions.Models -f -c esp32Context --context-dir ..\esp32.DA --context-namespace esp32.DA --use-database-names --no-pluralize
