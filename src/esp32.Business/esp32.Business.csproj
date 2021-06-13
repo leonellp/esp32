@@ -9,4 +9,9 @@
     <PackageReference Include="AutoMapper" Version="10.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\esp32.Business.Abstraction\esp32.Business.Abstraction.csproj" />
+    <ProjectReference Include="..\esp32.DA.Abstraction\esp32.DA.Abstraction.csproj" />
+  </ItemGroup>
+
 </Project>

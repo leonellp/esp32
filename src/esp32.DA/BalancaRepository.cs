@@ -1,9 +1,7 @@
 ﻿using esp32.DA.Abstraction.interfaces;
 using esp32.DA.Abstraction.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace esp32.DA {
     public class BalancaRepository : IBalancaRepository {
@@ -34,12 +32,13 @@ namespace esp32.DA {
             return Context.Balanca;
         }
 
-        public void Update(Guid Idbalanca, Balanca balancaUpdate) {
-            Balanca balanca = Context.Balanca.Where(a => a.Idbalanca == Idbalanca).FirstOrDefault();
+        public void Update(Balanca balancaUpdate) {
+            Balanca balanca = Context.Balanca.Where(a => a.Idbalanca == balancaUpdate.Idbalanca).FirstOrDefault();
 
             balanca.Peso = balancaUpdate.Peso;
-            balanca.Data = balancaUpdate.Data;            
+            balanca.Data = balancaUpdate.Data;
             balanca.ProdutoId = balancaUpdate.ProdutoId;
+            balanca.Quantidade = balancaUpdate.Quantidade;
 
             Context.SaveChanges();
         }
