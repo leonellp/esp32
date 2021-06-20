@@ -12,10 +12,13 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.IO;
 using System;
+using esp32.Business.Abstraction.interfaces;
+using esp32.DA.Abstraction.interfaces;
 
-
-namespace esp32.WebApi {
-    public class Startup {
+namespace esp32.WebApi
+{
+    public class Startup
+    {
 
         readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -27,10 +30,8 @@ namespace esp32.WebApi {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            services.AddControllers();
-
             services.AddSwaggerGen(options => {
-                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo {
+                options.SwaggerDoc("v1", new OpenApiInfo {
                     Title = "API ESP32",
                     Version = "V1",
                     Description = "API em C# para receber informações do microcontrolador ESP32 e enviar para UI em Angular"
@@ -46,12 +47,28 @@ namespace esp32.WebApi {
                     });
             });
 
-            
+            services.AddEntityFrameworkNpgsql().AddDbContext<esp32Context>(options => {
+                options.UseNpgsql(Configuration.GetConnectionString("Esp32"));
+                options.UseLazyLoadingProxies();
+            });
+
+            services.AddAutoMapper(typeof(Mappers));
+            services.AddControllers();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+
+            services.AddScoped<IProdutoService, ProdutoService>();
+            services.AddScoped<IBalancaService, BalancaService>();
+            services.AddScoped<IEspService, EspService>();
+
+            services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddScoped<IBalancaRepository, BalancaRepository>();
+            services.AddScoped<IHistoricoProdutoRepository, HistoricoProdutoRepository>();
         }
 
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-            if (env.IsDevelopment()) {
+            if(env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
 
@@ -61,8 +78,18 @@ namespace esp32.WebApi {
 
             app.UseAuthorization();
 
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger(c => {
+                c.SerializeAsV2 = true;
+            });
+
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Esp32");
             });
         }
     }

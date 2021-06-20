@@ -39,9 +39,12 @@ namespace esp32.Business {
             }
         }
 
-        public float Pesoatual(float pesoatual) {
-            Peso = pesoatual;
-            return pesoatual;
+        public void PesobalancaInsert(float pesoatual) {
+            Peso = pesoatual;            
+        }
+
+        public float PesobalancaGet() {
+            return Peso;
         }
     }
 }

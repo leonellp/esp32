@@ -7,13 +7,18 @@ using System.Linq;
 using esp32.DA.Abstraction.Models;
 using AutoMapper.QueryableExtensions;
 
-namespace esp32.Business {
-    public class BalancaService : IBalancaService {
+namespace esp32.Business
+{
+    public class BalancaService : IBalancaService
+    {
         private readonly IBalancaRepository balancaRepository;
+        private readonly IProdutoRepository produtoRepository;
+        private readonly IEspService espService;
         private IMapper mapper;
 
-        public BalancaService(IBalancaRepository balancaRepository, IMapper mapper) {
+        public BalancaService(IBalancaRepository balancaRepository, IProdutoRepository produtoRepository, IMapper mapper, IEspService espService) {
             this.balancaRepository = balancaRepository;
+            this.espService = espService;
             this.mapper = mapper;
         }
         public void Delete(Guid Idbalanca) {
@@ -24,34 +29,43 @@ namespace esp32.Business {
             return mapper.Map<BalancaDTO>(balancaRepository.GetById(Idbalanca));
         }
 
-        public void Insert(BalancaDTO Balanca) {
+        public void Insert(BalancaInsertDTO Balanca) {
             var balanca = mapper.Map<Balanca>(Balanca);
+            var produto = produtoRepository.List().Where(a => a.Idproduto == Balanca.ProdutoId).FirstOrDefault();
+
+            float pesoatual = espService.PesobalancaGet();
+            int qtd = (int)(pesoatual / (produto.Peso));
+
+            balanca.Peso = pesoatual;
+            balanca.Quantidade = qtd;
             balanca.Idbalanca = Guid.NewGuid();
+            balanca.Data = DateTime.Now;
+
             balancaRepository.Insert(balanca);
         }
 
         public Paginacao<BalancaDTO> List(
             int skip,
             int pageSize,
-            bool count,            
+            bool count,
             string pesquisa = null
             ) {
             int? nCount = null;
 
             var balanca = balancaRepository.List();
-            
-            if (pesquisa != null) {
+
+            if(pesquisa != null) {
                 balanca = balanca.Where(a =>
                 a.Produto.Nome.ToUpper().Contains(pesquisa.ToUpper()) ||
-                a.Produto.Marca.ToUpper().Contains(pesquisa.ToUpper())                
+                a.Produto.Marca.ToUpper().Contains(pesquisa.ToUpper())
                 );
             }
 
-            if (count) {
+            if(count) {
                 nCount = balanca.Count();
             }
 
-            if (skip < 0)
+            if(skip < 0)
                 skip = 0;
             balanca = balanca.OrderBy(a => a.Produto.Nome);
             balanca = balanca.Skip(skip).Take(pageSize);
@@ -63,6 +77,14 @@ namespace esp32.Business {
         }
 
         public void Update(BalancaDTO balancaUpdate) {
+            var produto = produtoRepository.List().Where(a => a.Idproduto == balancaUpdate.ProdutoId).FirstOrDefault();
+
+            float pesoatual = espService.PesobalancaGet();
+            int qtd = (int) (pesoatual / (produto.Peso));
+
+            balancaUpdate.Peso = pesoatual;
+            balancaUpdate.Quantidade = qtd;
+            
             balancaRepository.Update(mapper.Map<Balanca>(balancaUpdate));
         }
     }

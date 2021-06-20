@@ -1,12 +1,19 @@
 ﻿using esp32.WebApi.Abstraction.DTO;
 using System;
 
-namespace esp32.Business.Abstraction.interfaces {
-    public interface IBalancaService {
+namespace esp32.Business.Abstraction.interfaces
+{
+    public interface IBalancaService
+    {
         void Delete(Guid Idbalanca);
         BalancaDTO GetById(Guid Idbalanca);
-        void Insert(BalancaDTO Balanca);
-        Paginacao<BalancaDTO> List();
+        void Insert(BalancaInsertDTO Balanca);
+        Paginacao<BalancaDTO> List(
+            int skip,
+            int pageSize,
+            bool count,
+            string pesquisa = null
+            );
         void Update(BalancaDTO balancaUpdate);
     }
 }

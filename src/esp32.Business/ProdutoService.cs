@@ -9,11 +9,13 @@ using AutoMapper.QueryableExtensions;
 
 namespace esp32.Business {
     public class ProdutoService : IProdutoService {
-        private readonly IProdutoRepository produtoRepository;        
+        private readonly IProdutoRepository produtoRepository;
+        private readonly IEspService espService;
         private IMapper mapper;
 
-        public ProdutoService(IProdutoRepository produtoRepository, IMapper mapper) {
+        public ProdutoService(IProdutoRepository produtoRepository, IMapper mapper, IEspService espService) {
             this.produtoRepository = produtoRepository;
+            this.espService = espService;
             this.mapper = mapper;            
         }
         public void Delete(Guid Idproduto) {
@@ -24,11 +26,13 @@ namespace esp32.Business {
             return mapper.Map<ProdutoDTO>(produtoRepository.GetById(Idproduto));
         }
 
-        public void Insert(ProdutoDTO Produto) {
+        public void Insert(ProdutoInsertDTO Produto) {
             var produto = mapper.Map<Produto>(Produto);
-            
-            // produto.Peso = EspService.Peso;
+            float pesoAtual = espService.PesobalancaGet();
+
+            produto.Peso = pesoAtual;
             produto.Idproduto = Guid.NewGuid();
+
             produtoRepository.Insert(produto);
         }
 
@@ -71,6 +75,9 @@ namespace esp32.Business {
         }
 
         public void Update(ProdutoDTO produtoUpdate) {
+            float pesoAtual = espService.PesobalancaGet();
+            produtoUpdate.Peso = pesoAtual;
+
             produtoRepository.Update(mapper.Map<Produto>(produtoUpdate));
         }
     }

@@ -3,6 +3,7 @@
 namespace esp32.Business.Abstraction.interfaces {
     public interface IEspService {
         void Update(EspDTO esp);
-        float Pesoatual(float Pesoatual);
+        void PesobalancaInsert(float Pesoatual);
+        float PesobalancaGet();
     }
 }
