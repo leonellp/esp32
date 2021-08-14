@@ -26,7 +26,6 @@ namespace esp32.WebApi.Controllers
             esp.Peso = peso;
 
             espService.Update(esp);
-            espService.PesobalancaInsert(peso);
         }        
     }
 }

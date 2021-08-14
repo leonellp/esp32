@@ -41,7 +41,8 @@ namespace esp32.WebApi
             services.AddCors(options => {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                     builder => {
-                        builder.WithOrigins("http://localhost:4200")
+                        builder
+                        .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                     });

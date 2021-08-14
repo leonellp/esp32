@@ -7,7 +7,7 @@ namespace esp32.Business.Abstraction.interfaces
     {
         void Delete(Guid Idbalanca);
         BalancaDTO GetById(Guid Idbalanca);
-        void Insert(BalancaInsertDTO Balanca);
+        Guid Insert(Guid produtoId);
         Paginacao<BalancaDTO> List(
             int skip,
             int pageSize,

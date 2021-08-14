@@ -6,7 +6,7 @@ namespace esp32.DA.Abstraction.interfaces {
     public interface IBalancaRepository {
         void Delete(Guid Idbalanca);
         Balanca GetById(Guid Idbalanca);
-        void Insert(Balanca Balanca);
+        Guid Insert(Balanca Balanca);
         IQueryable<Balanca> List();
         void Update(Balanca balancaUpdate);
     }

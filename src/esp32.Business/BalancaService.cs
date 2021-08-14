@@ -29,19 +29,15 @@ namespace esp32.Business
             return mapper.Map<BalancaDTO>(balancaRepository.GetById(Idbalanca));
         }
 
-        public void Insert(BalancaInsertDTO Balanca) {
-            var balanca = mapper.Map<Balanca>(Balanca);
-            var produto = produtoRepository.List().Where(a => a.Idproduto == Balanca.ProdutoId).FirstOrDefault();
+        public Guid Insert(Guid produtoId) {
 
-            float pesoatual = espService.PesobalancaGet();
-            int qtd = (int)(pesoatual / (produto.Peso));
+            Balanca balanca = new Balanca();
 
-            balanca.Peso = pesoatual;
-            balanca.Quantidade = qtd;
+            balanca.ProdutoId = produtoId;
             balanca.Idbalanca = Guid.NewGuid();
             balanca.Data = DateTime.Now;
 
-            balancaRepository.Insert(balanca);
+            return balancaRepository.Insert(balanca);
         }
 
         public Paginacao<BalancaDTO> List(
@@ -84,7 +80,7 @@ namespace esp32.Business
 
             balancaUpdate.Peso = pesoatual;
             balancaUpdate.Quantidade = qtd;
-            
+
             balancaRepository.Update(mapper.Map<Balanca>(balancaUpdate));
         }
     }

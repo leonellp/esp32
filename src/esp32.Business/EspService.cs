@@ -5,8 +5,10 @@ using esp32.WebApi.Abstraction.DTO;
 using System;
 using System.Linq;
 
-namespace esp32.Business {
-    public class EspService : IEspService {
+namespace esp32.Business
+{
+    public class EspService : IEspService
+    {
         private readonly IBalancaRepository balancaRepository;
         private readonly IProdutoRepository produtoRepository;
         private readonly IHistoricoProdutoRepository historicoRepository;
@@ -19,28 +21,29 @@ namespace esp32.Business {
         public void Update(EspDTO esp) {
             var balanca = balancaRepository.GetById(esp.Idbalanca);
             var produto = produtoRepository.List().Where(a => a.Idproduto == balanca.ProdutoId).FirstOrDefault();
+            Peso = esp.Peso;
+            float quantidade = 0.0F;
 
-            float quantidade = (esp.Peso / produto.Peso);
-
-            if ((int) quantidade != balanca.Quantidade) {
-
-                balanca.Quantidade = (int) quantidade;
-                balanca.Peso = esp.Peso;
-                balancaRepository.Update(balanca);
-
-                HistoricoProduto historico = new HistoricoProduto();
-                historico.Idhistoricoproduto = Guid.NewGuid();
-                historico.Quantidade = (int) quantidade;
-                historico.Produtoid = produto.Idproduto;
-                historico.Data = DateTime.Now;
-                historico.Produto = produto;
-
-                historicoRepository.Insert(historico);
+            if(produto.Peso > 0) {
+                quantidade = (Peso / produto.Peso);
             }
-        }
 
-        public void PesobalancaInsert(float pesoatual) {
-            Peso = pesoatual;            
+            if((int) quantidade == balanca.Quantidade) {
+                return;
+            }
+
+            balanca.Quantidade = (int) quantidade;
+            balanca.Peso = Peso;
+            balancaRepository.Update(balanca);
+
+            HistoricoProduto historico = new HistoricoProduto();
+            historico.Idhistoricoproduto = Guid.NewGuid();
+            historico.Quantidade = (int) quantidade;
+            historico.Produtoid = produto.Idproduto;
+            historico.Data = DateTime.Today;
+            historico.Produto = produto;
+
+            historicoRepository.Insert(historico);
         }
 
         public float PesobalancaGet() {

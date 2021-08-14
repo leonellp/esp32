@@ -23,9 +23,10 @@ namespace esp32.DA {
             return balanca;
         }
 
-        public void Insert(Balanca Balanca) {
+        public Guid Insert(Balanca Balanca) {
             Context.Balanca.Add(Balanca);
             Context.SaveChanges();
+            return Balanca.Idbalanca;
         }
 
         public IQueryable<Balanca> List() {
