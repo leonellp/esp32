@@ -74,10 +74,7 @@ namespace esp32.Business {
             };
         }
 
-        public void Update(ProdutoDTO produtoUpdate) {
-            float pesoAtual = espService.PesobalancaGet();
-            produtoUpdate.Peso = pesoAtual;
-
+        public void Update(ProdutoUpdateDTO produtoUpdate) {
             produtoRepository.Update(mapper.Map<Produto>(produtoUpdate));
         }
     }

@@ -48,7 +48,7 @@ namespace esp32.WebApi.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public void Update(ProdutoDTO produto) {
+        public void Update(ProdutoUpdateDTO produto) {
             produtoService.Update(produto);
         }
     }

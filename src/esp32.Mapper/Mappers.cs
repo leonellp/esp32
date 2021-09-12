@@ -26,6 +26,11 @@ namespace esp32.Mapper {
                 .ForMember(a => a.HistoricoProduto, b => b.Ignore())
                 .ReverseMap();
 
+            // PRODUTO UPDATE
+            CreateMap<ProdutoUpdateDTO, Produto>()
+             .ForMember(a => a.Balanca, b => b.Ignore())
+             .ReverseMap();
+
             // HISTORICO PRODUTO
             CreateMap<HistoricoProdutoDTO, HistoricoProduto>().ReverseMap();
             CreateMap<HistoricoProdutoInsertDTO, HistoricoProduto>()

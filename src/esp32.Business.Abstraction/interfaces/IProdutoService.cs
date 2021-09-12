@@ -13,6 +13,6 @@ namespace esp32.Business.Abstraction.interfaces {
             bool? inativos = null,
             string pesquisa = null
             );
-        void Update(ProdutoDTO produtoUpdate);
+        void Update(ProdutoUpdateDTO produtoUpdate);
     }
 }

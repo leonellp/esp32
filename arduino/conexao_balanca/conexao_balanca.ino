@@ -41,7 +41,7 @@ unsigned long lastTime = 0;
 // Timer set to 10 minutes (600000)
 //unsigned long timerDelay = 600000;
 // Set timer to 5 seconds (5000)
-unsigned long timerDelay = 5000;
+unsigned long timerDelay = 10000;
 
 void setup() {
   Serial.begin(115200); 
@@ -76,7 +76,7 @@ void loop() {
     if(WiFi.status()== WL_CONNECTED){
       HTTPClient http;
 
-      String serverPath = serverName + "?peso=24.37";
+      String serverPath = serverName + "?peso=2720";
       
       // Your Domain name with URL path or IP address with path
       http.begin(serverPath.c_str());
