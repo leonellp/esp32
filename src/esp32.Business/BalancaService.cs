@@ -29,7 +29,7 @@ namespace esp32.Business
             return mapper.Map<BalancaDTO>(balancaRepository.GetById(Idbalanca));
         }
 
-        public Guid Insert(Guid produtoId) {
+        public Guid Insert(Guid? produtoId) {
 
             Balanca balanca = new Balanca();
 

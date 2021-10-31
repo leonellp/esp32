@@ -1,5 +1,4 @@
 export interface Paginacao<T> {
-    Values: T[];
-    Count: number | null;
-
+  Values: T[];
+  Count: number | null;
 }

@@ -3,13 +3,14 @@ version: '3.5'
 services:
   postgres:
     container_name: postgres_container
-    image: postgres
+    image: postgres:10
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-1234}
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-       - "D:/Gabriel/projetos/esp32/database/Docker/Postgres/data:/var/lib/postgresql/data/"
-       - "D:/Gabriel/projetos/esp32/database/Docker/Postgres/backups:/var/lib/postgresql/backups/"
+       - C:/Gabriel/MeusArquivos/esp32/database/Docker/Postgres/data:/var/lib/postgresql/data/pgdata"
+       - C:/Gabriel/MeusArquivos/esp32/database/Docker/Postgres/backups:/var/lib/postgresql/backups/"
     ports:
       - "5432:5432"
     networks:
@@ -23,7 +24,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-gleonelpontani@gmail.com}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
     volumes:
-       - "D:/Gabriel/projetos/esp32/database/Docker/Postgres/pgadmin:/var/lib/pgadmin/"
+       - C:/Gabriel/MeusArquivos/esp32/database/Docker/Postgres/pgadmin:/var/lib/pgadmin/"
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
