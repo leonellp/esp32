@@ -1,13 +1,13 @@
-import { BalancaDTO } from "./BalancaDTO";
-import { HistoricoProdutoDTO } from "./HistoricoProdutoDTO";
+import { BalancaDTO } from './BalancaDTO';
+import { HistoricoProdutoDTO } from './HistoricoProdutoDTO';
 
 export interface ProdutoDTO {
-    Idproduto: string;
-    Nome: string;
-    Marca: string;
-    Peso: number;
-    Inativo: Date | string | null;
+  idproduto: string;
+  nome: string;
+  marca: string;
+  peso: number;
+  inativo?: Date;
 
-    Balanca: BalancaDTO[];
-    HistoricoProduto: HistoricoProdutoDTO[];
+  balanca: BalancaDTO[];
+  historicoProduto: HistoricoProdutoDTO[];
 }

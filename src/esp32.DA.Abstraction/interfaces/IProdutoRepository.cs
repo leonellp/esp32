@@ -6,7 +6,7 @@ namespace esp32.DA.Abstraction.interfaces {
     public interface IProdutoRepository {
         void Delete(Guid Idproduto);
         Produto GetById(Guid Idproduto);
-        void Insert(Produto Produto);
+        Guid Insert(Produto Produto);
         IQueryable<Produto> List();
         void Update(Produto produtoUpdate);
     }

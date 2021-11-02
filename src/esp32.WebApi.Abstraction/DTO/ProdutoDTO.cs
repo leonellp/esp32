@@ -10,7 +10,6 @@ namespace esp32.WebApi.Abstraction.DTO {
         public float Peso { get; set; }
         public DateTime? Inativo { get; set; }
 
-        public virtual ICollection<BalancaDTO> Balanca { get; set; }
-        public virtual ICollection<HistoricoProdutoDTO> HistoricoProduto { get; set; }
+        public virtual BalancaDTO[] Balanca { get; set; }
     }
 }

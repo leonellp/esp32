@@ -36,8 +36,8 @@ namespace esp32.WebApi.Controllers
         }
 
         [HttpPost]
-        public void Insert(ProdutoInsertDTO produto) {
-            produtoService.Insert(produto);
+        public Guid Insert(ProdutoInsertDTO produto) {
+            return produtoService.Insert(produto);
         }
 
         [HttpDelete]

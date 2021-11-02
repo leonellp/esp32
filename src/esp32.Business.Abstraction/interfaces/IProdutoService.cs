@@ -5,7 +5,7 @@ namespace esp32.Business.Abstraction.interfaces {
     public interface IProdutoService {
         void Delete(Guid Idproduto);
         ProdutoDTO GetById(Guid Idproduto);
-        void Insert(ProdutoInsertDTO Produto);
+        Guid Insert(ProdutoInsertDTO Produto);
         Paginacao<ProdutoDTO> List(
             int skip,
             int pageSize,

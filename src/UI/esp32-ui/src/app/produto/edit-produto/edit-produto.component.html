@@ -1,0 +1,83 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title fxLayout="row">
+      <button mat-button class="back-button" (click)="back()">
+        <mat-icon>arrow_back_ios</mat-icon>
+      </button>
+
+      <b fxLayoutAlign="start center" class="new-product" *ngIf="!editMode">
+        Novo Produto
+      </b>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <form [formGroup]="productForm" fxLayout="column">
+      <mat-form-field class="full-width">
+        <mat-label> Nome </mat-label>
+        <input matInput maxlength="50" required formControlName="nome" #nome />
+        <mat-hint align="end"> {{ nome.value.length }} / 50 </mat-hint>
+        <mat-error *ngIf="productForm.controls['nome'].invalid">
+          Nome é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label> Marca </mat-label>
+        <input
+          matInput
+          maxlength="50"
+          required
+          formControlName="marca"
+          #marca
+        />
+        <mat-hint align="end"> {{ marca.value.length }} / 50 </mat-hint>
+        <mat-error *ngIf="productForm.controls['marca'].invalid">
+          Marca é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="peso">
+        <mat-label> Peso Unidade</mat-label>
+        <input
+          type="number"
+          matInput
+          maxlength="4"
+          required
+          formControlName="peso"
+          #peso
+        />
+        <p matSuffix>g</p>
+        <mat-hint align="end"> {{ peso.value.length }} / 4 </mat-hint>
+        <mat-error *ngIf="productForm.controls['peso'].invalid">
+          Peso é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" *ngIf="editMode">
+        <mat-label> Balanca </mat-label>
+        <mat-select (selectionChange)="selectedChanged($event)">
+          <mat-option
+            *ngFor="let balanca of balancas?.values"
+            [value]="balanca"
+          >
+            {{ balanca.idbalanca }}
+            <p *ngIf="balancas.count && balancas.count <= 0">
+              Nenhuma balança cadastrada
+            </p>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+
+    <div class="save-button">
+      <button
+        mat-fab
+        (click)="save()"
+        [disabled]="productForm.invalid || productForm.pristine"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

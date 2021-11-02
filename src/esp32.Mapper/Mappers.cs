@@ -11,14 +11,12 @@ namespace esp32.Mapper {
             CreateMap<BalancaInsertDTO, Balanca>()
                 .ForMember(a => a.Produto, b => b.Ignore())
                 .ReverseMap();
-            
+
             // PRODUTO
             CreateMap<ProdutoDTO, Produto>()
                 .ForMember(a => a.Balanca, b => b.MapFrom(c => c.Balanca))
-                .ForMember(a => a.HistoricoProduto, b => b.MapFrom(c => c.HistoricoProduto))
                 .ReverseMap()
-                .ForMember(a => a.Balanca, b => b.MapFrom(c => c.Balanca))
-                .ForMember(a => a.HistoricoProduto, b => b.MapFrom(c => c.HistoricoProduto));
+                .ForMember(a => a.Balanca, b => b.MapFrom(c => c.Balanca));
 
             // PRODUTO INSERT
             CreateMap<ProdutoInsertDTO, Produto>()

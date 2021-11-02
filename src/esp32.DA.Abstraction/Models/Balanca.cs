@@ -12,6 +12,7 @@ namespace esp32.DA.Abstraction.Models
         public DateTime Data { get; set; }
         public Guid? ProdutoId { get; set; }
         public int Quantidade { get; set; }
+        public string Nome { get; set; }
 
         public virtual Produto Produto { get; set; }
     }

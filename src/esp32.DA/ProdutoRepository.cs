@@ -22,9 +22,10 @@ namespace esp32.DA {
             return produto;
         }
 
-        public void Insert(Produto Produto) {
+        public Guid Insert(Produto Produto) {
             Context.Produto.Add(Produto);
             Context.SaveChanges();
+            return Produto.Idproduto;
         }
 
         public IQueryable<Produto> List() {

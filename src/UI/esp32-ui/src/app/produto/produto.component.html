@@ -1,0 +1,37 @@
+<mat-card>
+  <mat-card-title fxLayout="row">
+    <button mat-button class="back-button" (click)="back()">
+      <mat-icon>arrow_back_ios</mat-icon>
+    </button>
+    <b fxLayoutAlign="start center"> Produtos </b>
+
+    <button class="align-end" mat-button [routerLink]="['new']">
+      <mat-icon>library_add</mat-icon>
+      Novo produto
+    </button>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <mat-list role="list">
+      <mat-list-item *ngFor="let produto of produtos?.values" role="listitem">
+        <div
+          style="cursor: pointer"
+          [routerLink]="[produto.idproduto, 'edit']"
+          fxLayoutAlign="space-between center"
+        >
+          {{ produto.nome }}
+
+          {{ produto.marca }}
+        </div>
+        <button
+          class="align-end"
+          mat-flat-button
+          (click)="remove(produto.idproduto)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

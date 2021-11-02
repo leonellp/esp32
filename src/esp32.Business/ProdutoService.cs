@@ -7,8 +7,10 @@ using System.Linq;
 using esp32.DA.Abstraction.Models;
 using AutoMapper.QueryableExtensions;
 
-namespace esp32.Business {
-    public class ProdutoService : IProdutoService {
+namespace esp32.Business
+{
+    public class ProdutoService : IProdutoService
+    {
         private readonly IProdutoRepository produtoRepository;
         private readonly IEspService espService;
         private IMapper mapper;
@@ -16,7 +18,7 @@ namespace esp32.Business {
         public ProdutoService(IProdutoRepository produtoRepository, IMapper mapper, IEspService espService) {
             this.produtoRepository = produtoRepository;
             this.espService = espService;
-            this.mapper = mapper;            
+            this.mapper = mapper;
         }
         public void Delete(Guid Idproduto) {
             produtoRepository.Delete(Idproduto);
@@ -26,14 +28,12 @@ namespace esp32.Business {
             return mapper.Map<ProdutoDTO>(produtoRepository.GetById(Idproduto));
         }
 
-        public void Insert(ProdutoInsertDTO Produto) {
+        public Guid Insert(ProdutoInsertDTO Produto) {
             var produto = mapper.Map<Produto>(Produto);
-            float pesoAtual = espService.PesobalancaGet();
 
-            produto.Peso = pesoAtual;
             produto.Idproduto = Guid.NewGuid();
 
-            produtoRepository.Insert(produto);
+            return produtoRepository.Insert(produto);
         }
 
         public Paginacao<ProdutoDTO> List(
@@ -46,24 +46,24 @@ namespace esp32.Business {
             int? nCount = null;
 
             var produtos = produtoRepository.List();
-            if (inativos == true) {
+            if(inativos == true) {
                 produtos = produtos.Where(a => a.Inativo != null);
             } else {
                 produtos = produtos.Where(a => a.Inativo == null);
             }
 
-            if (pesquisa != null) {
+            if(pesquisa != null) {
                 produtos = produtos.Where(a =>
                 a.Nome.ToUpper().Contains(pesquisa.ToUpper()) ||
-                a.Marca.ToUpper().Contains(pesquisa.ToUpper())                
+                a.Marca.ToUpper().Contains(pesquisa.ToUpper())
                 );
             }
 
-            if (count) {
+            if(count) {
                 nCount = produtos.Count();
             }
 
-            if (skip < 0)
+            if(skip < 0)
                 skip = 0;
             produtos = produtos.OrderBy(a => a.Nome);
             produtos = produtos.Skip(skip).Take(pageSize);
