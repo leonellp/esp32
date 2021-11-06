@@ -1,92 +1,89 @@
-/*
-  Rui Santos
-  Complete project details at Complete project details at https://RandomNerdTutorials.com/esp32-http-get-post-arduino/
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*/
-
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <Arduino.h>
+#include "HX711.h"
 
-const char* ssid = "cima";
+#define DT 19
+#define SCK 18
+
+
+const char* ssid = "Fundo";
 const char* password = "p36058656";
 
-// Auxiliar variables to store the current output state
+float peso = 0;
+
+HX711 escala;    // Relaciona a variável escala
+
+// Variáveis ​​auxiliares para armazenar o estado de saída atual
 String output26State = "off";
 String output27State = "off";
 
-// Assign output variables to GPIO pins
+// Atribuir variáveis ​​de saída aos pinos GPIO
 const int output26 = 26;
 const int output27 = 27;
 
-// Set your Static IP address
-IPAddress local_IP(192, 168, 1, 184);
-// Set your Gateway IP address
-IPAddress gateway(192, 168, 1, 1);
+// URL da API com o ID da Balança ja definida
+String serverName = "https://192.168.0.109:5001/v1/esp/72640398-2c3c-4bed-bca7-842e0ba8389b";
 
-IPAddress subnet(255, 255, 0, 0);
-IPAddress primaryDNS(8, 8, 8, 8);   //optional
-IPAddress secondaryDNS(8, 8, 4, 4); //optional
-
-//Your Domain name with URL path or IP address with path
-String serverName = "https://192.168.1.100:5001/v1/esp/588a472d-92ea-426d-9090-ef458753949e";
-
-// the following variables are unsigned longs because the time, measured in
-// milliseconds, will quickly become a bigger number than can be stored in an int.
+// Variáveis resposável pelo timer de envio do peso para API
 unsigned long lastTime = 0;
-// Timer set to 10 minutes (600000)
-//unsigned long timerDelay = 600000;
-// Set timer to 5 seconds (5000)
-unsigned long timerDelay = 10000;
+unsigned long timerDelay = 300000;
 
+// Configurações do célula de carga e conexão com o WiFi
 void setup() {
+  escala.begin (DT, SCK);
   Serial.begin(115200); 
   pinMode(output26, OUTPUT);
   pinMode(output27, OUTPUT);
-  // Set outputs to LOW
   digitalWrite(output26, LOW);
   digitalWrite(output27, LOW);
-
-  // Configures static IP address
-  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
-    Serial.println("STA Failed to configure");
-  }
 
   WiFi.begin(ssid, password);
   Serial.println("Connecting");
   while(WiFi.status() != WL_CONNECTED) {
     delay(500);
-    Serial.print(".");
+    Serial.println(".");
   }
   Serial.println("");
-  Serial.print("Connected to WiFi network with IP Address: ");
+  Serial.print("Conectado ao Wifi com sucesso com o IP: ");
   Serial.println(WiFi.localIP());
  
-  Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
+  Serial.print("Leitura do Valor ADC:  ");
+  Serial.println(escala.read());   // Aguada até o dispositivo estar pronto
+  Serial.println("Nao coloque nada na balanca!");
+  Serial.println("Iniciando...");
+  escala.set_scale(121.8757352941176);     // Substituir o valor encontrado para escala
+  escala.tare(20);                // O peso é chamado de Tare.
+  Serial.println("Insira o item para Pesar");
 }
 
 void loop() {
-  //Send an HTTP POST request every 10 minutes
+  //Envie uma solicitação HTTP POST a cada 5 minutos
   if ((millis() - lastTime) > timerDelay) {
-    //Check WiFi connection status
+    //Verifique o status da conexão WiFi
     if(WiFi.status()== WL_CONNECTED){
       HTTPClient http;
 
-      String serverPath = serverName + "?peso=2720";
-      
-      // Your Domain name with URL path or IP address with path
+      // define a variável "peso" com o peso que está na balança
+      peso = escala.get_units(20);
+
+      // URL de envio dos dados para API
+      String serverPath = serverName + "?peso=" + peso;
+
+     // inicia o envio
       http.begin(serverPath.c_str());
       
-      // Send HTTP GET request
+      // Enviar solicitação HTTP GET de resposta do POST
       int httpResponseCode = http.POST(serverPath);
-      
+
+      // Print a resposta
       if (httpResponseCode>0) {
         Serial.print("HTTP Response code: ");
         Serial.println(httpResponseCode);
+
+        Serial.print("Peso enviado:");
+        Serial.println(peso);
+        
         String payload = http.getString();
         Serial.println(payload);
       }
@@ -94,7 +91,7 @@ void loop() {
         Serial.print("Error code: ");
         Serial.println(httpResponseCode);
       }
-      // Free resources
+      // finaliza a requizição HTTP
       http.end();
     }
     else {

@@ -12,12 +12,13 @@ namespace esp32.Business
     public class BalancaService : IBalancaService
     {
         private readonly IBalancaRepository balancaRepository;
-        private readonly IProdutoRepository produtoRepository;
+        private readonly IProdutoService produtoService;
         private readonly IEspService espService;
         private IMapper mapper;
 
-        public BalancaService(IBalancaRepository balancaRepository, IProdutoRepository produtoRepository, IMapper mapper, IEspService espService) {
+        public BalancaService(IBalancaRepository balancaRepository, IProdutoService produtoService, IMapper mapper, IEspService espService) {
             this.balancaRepository = balancaRepository;
+            this.produtoService = produtoService;
             this.espService = espService;
             this.mapper = mapper;
         }
@@ -29,15 +30,16 @@ namespace esp32.Business
             return mapper.Map<BalancaDTO>(balancaRepository.GetById(Idbalanca));
         }
 
-        public Guid Insert(Guid? produtoId) {
+        public Guid Insert(BalancaInsertDTO balanca) {
 
-            Balanca balanca = new Balanca();
+            Balanca _balanca = new Balanca();
 
-            balanca.ProdutoId = produtoId;
-            balanca.Idbalanca = Guid.NewGuid();
-            balanca.Data = DateTime.Now;
+            _balanca.ProdutoId = balanca.ProdutoId;
+            _balanca.Nome = balanca.Nome;
+            _balanca.Idbalanca = Guid.NewGuid();
+            _balanca.Data = DateTime.Now;
 
-            return balancaRepository.Insert(balanca);
+            return balancaRepository.Insert(_balanca);
         }
 
         public Paginacao<BalancaDTO> List(
@@ -73,7 +75,10 @@ namespace esp32.Business
         }
 
         public void Update(BalancaDTO balancaUpdate) {
-            var produto = produtoRepository.List().Where(a => a.Idproduto == balancaUpdate.ProdutoId).FirstOrDefault();
+            var produto = produtoService.GetById(balancaUpdate.ProdutoId.Value);
+            if(produto == null)
+                throw new Exception("Produto não encontrado ");
+
 
             float pesoatual = espService.PesobalancaGet();
             int qtd = (int) (pesoatual / (produto.Peso));

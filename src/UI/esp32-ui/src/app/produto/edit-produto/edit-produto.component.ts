@@ -18,6 +18,7 @@ export class EditProdutoComponent implements OnInit {
   id = '';
   balancas: Paginacao<BalancaDTO>;
   balanca: BalancaDTO;
+  balancaSelected = false;
 
   productForm: FormGroup;
 
@@ -82,10 +83,12 @@ export class EditProdutoComponent implements OnInit {
   selectedChanged(event: any): void {
     this.balanca = event.value;
     this.balanca.produtoId = this.id;
-    console.log(this.balanca);
+    this.balancaSelected = true;
+    this.productForm.markAllAsTouched();
   }
 
   save(): void {
+    this.productForm.markAllAsTouched();
     if (this.id) {
       this.produtoService.update(this.productForm.value).subscribe(
         () => {
@@ -110,26 +113,11 @@ export class EditProdutoComponent implements OnInit {
             duration: 3000,
           });
 
-          this.router.navigate(['/produto', id, 'edit']);
+          this.router.navigate(['/produtos', id, 'edit']);
         },
         () => {
           this.snackBar.open(
             'Erro ao criar produto, tente novamente mais tarde!',
-            '',
-            {
-              duration: 3000,
-            }
-          );
-        }
-      );
-    }
-
-    if (this.balanca && this.editMode) {
-      this.balancaService.update(this.balanca).subscribe(
-        () => {},
-        () => {
-          this.snackBar.open(
-            'Erro ao associar balança, tente novamente mais tarde!',
             '',
             {
               duration: 3000,

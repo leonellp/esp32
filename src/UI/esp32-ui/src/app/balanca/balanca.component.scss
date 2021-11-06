@@ -1,0 +1,17 @@
+mat-card {
+  margin: 50px;
+  margin-top: 20px;
+
+  @media (max-width: 600px) {
+    margin: 20px;
+  }
+
+  .back-button {
+    margin-left: -15px;
+  }
+
+  .align-end {
+    margin-right: 0px;
+    margin-left: auto;
+  }
+}

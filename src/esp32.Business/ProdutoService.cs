@@ -12,12 +12,10 @@ namespace esp32.Business
     public class ProdutoService : IProdutoService
     {
         private readonly IProdutoRepository produtoRepository;
-        private readonly IEspService espService;
         private IMapper mapper;
 
-        public ProdutoService(IProdutoRepository produtoRepository, IMapper mapper, IEspService espService) {
+        public ProdutoService(IProdutoRepository produtoRepository, IMapper mapper) {
             this.produtoRepository = produtoRepository;
-            this.espService = espService;
             this.mapper = mapper;
         }
         public void Delete(Guid Idproduto) {

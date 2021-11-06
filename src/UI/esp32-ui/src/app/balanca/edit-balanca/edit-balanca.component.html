@@ -1,0 +1,54 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title fxLayout="row">
+      <button mat-button class="back-button" (click)="back()">
+        <mat-icon>arrow_back_ios</mat-icon>
+      </button>
+
+      <b fxLayoutAlign="start center" class="new-product" *ngIf="!editMode">
+        Nova Balanca
+      </b>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <form [formGroup]="balancaForm" fxLayout="column">
+      <mat-form-field class="full-width">
+        <mat-label> Nome </mat-label>
+        <input matInput maxlength="50" required formControlName="nome" #nome />
+        <mat-hint align="end"> {{ nome.value.length }} / 50 </mat-hint>
+        <mat-error *ngIf="balancaForm.controls['nome'].invalid">
+          Nome é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label> Produto </mat-label>
+        <mat-select
+          (selectionChange)="selectedChanged($event)"
+          formControlName="produtoId"
+        >
+          <mat-option
+            *ngFor="let produto of produtos?.values"
+            [value]="produto"
+          >
+            {{ produto.nome }} {{ produto.marca }}
+            <p *ngIf="produtos.count && produtos.count <= 0">
+              Nenhuma balança cadastrada
+            </p>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+
+    <div class="save-button">
+      <button
+        mat-fab
+        (click)="save()"
+        [disabled]="balancaForm.invalid || balancaForm.pristine"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

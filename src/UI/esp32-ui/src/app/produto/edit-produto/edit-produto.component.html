@@ -53,21 +53,6 @@
           Peso é obrigatório
         </mat-error>
       </mat-form-field>
-
-      <mat-form-field class="full-width" *ngIf="editMode">
-        <mat-label> Balanca </mat-label>
-        <mat-select (selectionChange)="selectedChanged($event)">
-          <mat-option
-            *ngFor="let balanca of balancas?.values"
-            [value]="balanca"
-          >
-            {{ balanca.idbalanca }}
-            <p *ngIf="balancas.count && balancas.count <= 0">
-              Nenhuma balança cadastrada
-            </p>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
     </form>
 
     <div class="save-button">

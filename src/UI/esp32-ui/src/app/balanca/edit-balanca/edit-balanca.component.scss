@@ -1,0 +1,38 @@
+mat-card {
+  margin: 50px;
+  margin-top: 20px;
+
+  @media (max-width: 600px) {
+    margin: 20px;
+  }
+
+  .back-button {
+    margin-left: -30px;
+  }
+
+  .new-product {
+    font-size: large;
+  }
+
+  form {
+    margin: 20px;
+  }
+
+  .full-width {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .peso {
+    width: 150px;
+
+    @media (max-width: 300px) {
+      width: 100%;
+    }
+  }
+
+  .save-button {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

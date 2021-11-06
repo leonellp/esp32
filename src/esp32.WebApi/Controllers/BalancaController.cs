@@ -35,8 +35,8 @@ namespace esp32.WebApi.Controllers
         }
 
         [HttpPost]
-        public Guid Insert(Guid? produtoId) {
-            return balancaService.Insert(produtoId);
+        public Guid Insert(BalancaInsertDTO balancaInsert) {
+            return balancaService.Insert(balancaInsert);
         }
 
         [HttpDelete]

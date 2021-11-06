@@ -13,12 +13,12 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'balanca',
+    path: 'balancas',
     loadChildren: () =>
       import('./balanca/balanca.module').then((m) => m.BalancaModule),
   },
   {
-    path: 'produto',
+    path: 'produtos',
     loadChildren: () =>
       import('./produto/produto.module').then((m) => m.ProdutoModule),
   },
