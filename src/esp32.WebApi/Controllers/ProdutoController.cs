@@ -35,6 +35,12 @@ namespace esp32.WebApi.Controllers
             return produtoService.GetById(id);
         }
 
+        [HttpGet]
+        [Route("{id}/historico")]
+        public List<HistoricoProdutoDTO> GetHistoricoProduto(Guid id) {
+            return produtoService.HistoricoProduto(id);
+        }
+
         [HttpPost]
         public Guid Insert(ProdutoInsertDTO produto) {
             return produtoService.Insert(produto);

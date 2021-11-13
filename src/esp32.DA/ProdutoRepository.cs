@@ -1,6 +1,7 @@
 ﻿using esp32.DA.Abstraction.interfaces;
 using esp32.DA.Abstraction.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace esp32.DA {
@@ -41,6 +42,14 @@ namespace esp32.DA {
             produto.Inativo = produtoUpdate.Inativo;
 
             Context.SaveChanges();
+        }
+
+        public List<HistoricoProduto> HistoricoProduto(Guid Idproduto) {
+            var historico = Context.HistoricoProduto.Where(a => a.Produtoid == Idproduto).ToList();
+
+            historico.OrderBy(a => a.Data);
+
+            return historico;
         }
     }
 }

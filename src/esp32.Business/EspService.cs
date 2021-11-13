@@ -50,7 +50,6 @@ namespace esp32.Business
             historico.Quantidade = (int) quantidade;
             historico.Produtoid = produto.Idproduto;
             historico.Data = DateTime.Now;
-            historico.Produto = mapper.Map<Produto>(produto);
 
             historicoRepository.Insert(historico);
         }

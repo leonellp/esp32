@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using esp32.DA.Abstraction.Models;
 using AutoMapper.QueryableExtensions;
+using System.Collections.Generic;
 
 namespace esp32.Business
 {
@@ -74,6 +75,15 @@ namespace esp32.Business
 
         public void Update(ProdutoUpdateDTO produtoUpdate) {
             produtoRepository.Update(mapper.Map<Produto>(produtoUpdate));
+        }
+
+        public List<HistoricoProdutoDTO> HistoricoProduto(Guid Idproduto) {
+            if(Idproduto == null)
+                throw new Exception("Id do Produto não pode ser nulo");
+
+            var historico = mapper.Map<HistoricoProdutoDTO[]>(produtoRepository.HistoricoProduto(Idproduto));
+
+            return historico.ToList();
         }
     }
 }

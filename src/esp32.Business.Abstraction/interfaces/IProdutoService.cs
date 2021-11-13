@@ -1,5 +1,6 @@
 ﻿using esp32.WebApi.Abstraction.DTO;
 using System;
+using System.Collections.Generic;
 
 namespace esp32.Business.Abstraction.interfaces {
     public interface IProdutoService {
@@ -14,5 +15,6 @@ namespace esp32.Business.Abstraction.interfaces {
             string pesquisa = null
             );
         void Update(ProdutoUpdateDTO produtoUpdate);
+        List<HistoricoProdutoDTO> HistoricoProduto(Guid Idproduto);
     }
 }
