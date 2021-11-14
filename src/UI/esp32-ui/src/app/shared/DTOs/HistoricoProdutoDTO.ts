@@ -1,6 +1,6 @@
 export interface HistoricoProdutoDTO {
-  Idhistoricopeso: string;
-  Quantidade: number;
-  Produtoid: string;
-  Data: Date | string;
+  idhistoricopeso: string;
+  quantidade: number;
+  produtoid: string;
+  data: Date;
 }

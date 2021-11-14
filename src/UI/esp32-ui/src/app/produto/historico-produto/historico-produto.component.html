@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title fxLayout="row">
+      <button mat-button class="back-button" (click)="back()">
+        <mat-icon>arrow_back_ios</mat-icon>
+      </button>
+
+      <b fxLayoutAlign="start center" *ngIf="produto">
+        {{ produto.nome }} {{ produto.marca }}
+      </b>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <canvas #grafico></canvas>
+  </mat-card-content>
+</mat-card>

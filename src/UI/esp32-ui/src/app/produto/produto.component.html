@@ -16,20 +16,22 @@
       <mat-list-item *ngFor="let produto of produtos?.values" role="listitem">
         <div
           style="cursor: pointer"
-          [routerLink]="[produto.idproduto, 'edit']"
           fxLayoutAlign="space-between center"
+          [routerLink]="[produto.idproduto, 'historico']"
         >
           {{ produto.nome }}
 
           {{ produto.marca }}
         </div>
-        <button
-          class="align-end"
-          mat-flat-button
-          (click)="remove(produto.idproduto)"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
+        <div class="align-end">
+          <button mat-flat-button [routerLink]="[produto.idproduto, 'edit']">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-flat-button (click)="remove(produto.idproduto)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
         <mat-divider></mat-divider>
       </mat-list-item>
     </mat-list>

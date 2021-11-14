@@ -15,9 +15,10 @@ import { MatTableModule } from '@angular/material/table';
 import { EditProdutoComponent } from './edit-produto/edit-produto.component';
 import { ProdutoComponent } from './produto.component';
 import { ProdutoRoutingModule } from './produto.routing';
+import { HistoricoProdutoComponent } from './historico-produto/historico-produto.component';
 
 @NgModule({
-  declarations: [ProdutoComponent, EditProdutoComponent],
+  declarations: [ProdutoComponent, EditProdutoComponent, HistoricoProdutoComponent],
   imports: [
     CommonModule,
     ProdutoRoutingModule,

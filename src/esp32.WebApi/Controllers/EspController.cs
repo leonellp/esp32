@@ -19,6 +19,9 @@ namespace esp32.WebApi.Controllers
         public void Update(Guid idbalanca, float peso) {
             EspDTO esp = new EspDTO();
 
+            if(peso < 0)
+                peso = 0;
+
             esp.Idbalanca = idbalanca;
             esp.Peso = peso;
 

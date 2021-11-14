@@ -47,7 +47,7 @@ namespace esp32.DA {
 
                 entity.Property(e => e.Idhistoricoproduto).ValueGeneratedNever();
 
-                entity.Property(e => e.Data).HasColumnType("date");
+                entity.Property(e => e.Data).HasColumnType("timestamp");
 
                 entity.HasOne(d => d.Produto)
                     .WithMany(p => p.HistoricoProduto)

@@ -77,13 +77,24 @@ namespace esp32.Business
             produtoRepository.Update(mapper.Map<Produto>(produtoUpdate));
         }
 
-        public List<HistoricoProdutoDTO> HistoricoProduto(Guid Idproduto) {
-            if(Idproduto == null)
+        public Paginacao<HistoricoProdutoDTO> HistoricoProduto(Guid ProdutoId, DateTime? Inicio, DateTime? Fim) {
+            if(ProdutoId == null)
                 throw new Exception("Id do Produto não pode ser nulo");
 
-            var historico = mapper.Map<HistoricoProdutoDTO[]>(produtoRepository.HistoricoProduto(Idproduto));
+            var historico = produtoRepository.HistoricoProduto(ProdutoId);
 
-            return historico.ToList();
+            if(Inicio != null)
+                historico = historico.Where(x => x.Data >= Inicio);
+
+            if(Fim != null)
+                historico = historico.Where(x => x.Data <= Fim);
+
+            historico = historico.OrderByDescending(a => a.Data);
+
+            return new Paginacao<HistoricoProdutoDTO>() {
+                Values = historico.ProjectTo<HistoricoProdutoDTO>(mapper.ConfigurationProvider).ToArray(),
+                Count = historico.Count()
+            };
         }
     }
 }

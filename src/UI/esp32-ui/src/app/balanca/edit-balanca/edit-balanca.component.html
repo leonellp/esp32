@@ -30,7 +30,7 @@
         >
           <mat-option
             *ngFor="let produto of produtos?.values"
-            [value]="produto"
+            [value]="produto.idproduto"
           >
             {{ produto.nome }} {{ produto.marca }}
             <p *ngIf="produtos.count && produtos.count <= 0">

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { HistoricoProdutoDTO } from '../DTOs/HistoricoProdutoDTO';
 import { Paginacao } from '../DTOs/Paginacao';
 import { ProdutoDTO } from '../DTOs/ProdutoDTO';
 import { ProdutoInsertDTO } from '../DTOs/ProdutoInsertDTO';
@@ -47,5 +48,19 @@ export class ProdutoService {
 
   update(produto: ProdutoDTO) {
     return this.http.put(`${this.API}/${produto.idproduto}`, produto);
+  }
+
+  historico(
+    id: string,
+    inicio?: Date | null,
+    fim?: Date | null
+  ): Observable<Paginacao<HistoricoProdutoDTO>> {
+    var url = `${this.API}/${id}/historico`;
+
+    if (inicio) url = url + '?Inicio=' + inicio;
+
+    if (fim) url = url + '&Fim=' + fim;
+
+    return this.http.get<Paginacao<HistoricoProdutoDTO>>(url);
   }
 }

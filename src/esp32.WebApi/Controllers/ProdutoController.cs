@@ -2,9 +2,6 @@
 using esp32.WebApi.Abstraction.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace esp32.WebApi.Controllers
 {
@@ -37,8 +34,8 @@ namespace esp32.WebApi.Controllers
 
         [HttpGet]
         [Route("{id}/historico")]
-        public List<HistoricoProdutoDTO> GetHistoricoProduto(Guid id) {
-            return produtoService.HistoricoProduto(id);
+        public Paginacao<HistoricoProdutoDTO> HistoricoProduto(Guid id, DateTime? Inicio, DateTime? Fim) {
+            return produtoService.HistoricoProduto(id, Inicio, Fim);
         }
 
         [HttpPost]

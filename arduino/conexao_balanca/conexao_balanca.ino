@@ -27,7 +27,7 @@ String serverName = "https://192.168.0.109:5001/v1/esp/72640398-2c3c-4bed-bca7-8
 
 // Variáveis resposável pelo timer de envio do peso para API
 unsigned long lastTime = 0;
-unsigned long timerDelay = 300000;
+unsigned long timerDelay = 10000;
 
 // Configurações do célula de carga e conexão com o WiFi
 void setup() {
@@ -49,7 +49,7 @@ void setup() {
   Serial.println(WiFi.localIP());
  
   Serial.print("Leitura do Valor ADC:  ");
-  Serial.println(escala.read());   // Aguada até o dispositivo estar pronto
+  Serial.println(escala.read());   // Aguarda até o dispositivo estar pronto
   Serial.println("Nao coloque nada na balanca!");
   Serial.println("Iniciando...");
   escala.set_scale(121.8757352941176);     // Substituir o valor encontrado para escala
@@ -66,7 +66,8 @@ void loop() {
 
       // define a variável "peso" com o peso que está na balança
       peso = escala.get_units(20);
-
+      Serial.print("Peso:");
+      Serial.println(peso);
       // URL de envio dos dados para API
       String serverPath = serverName + "?peso=" + peso;
 
@@ -80,9 +81,6 @@ void loop() {
       if (httpResponseCode>0) {
         Serial.print("HTTP Response code: ");
         Serial.println(httpResponseCode);
-
-        Serial.print("Peso enviado:");
-        Serial.println(peso);
         
         String payload = http.getString();
         Serial.println(payload);
@@ -96,7 +94,7 @@ void loop() {
     }
     else {
       Serial.println("WiFi Disconnected");
-    }
+    }    
     lastTime = millis();
   }
 }

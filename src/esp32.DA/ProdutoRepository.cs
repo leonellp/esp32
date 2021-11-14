@@ -1,11 +1,14 @@
 ﻿using esp32.DA.Abstraction.interfaces;
 using esp32.DA.Abstraction.Models;
+using esp32.WebApi.Abstraction.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace esp32.DA {
-    public class ProdutoRepository : IProdutoRepository {
+namespace esp32.DA
+{
+    public class ProdutoRepository : IProdutoRepository
+    {
         private readonly esp32Context Context;
 
         public ProdutoRepository(esp32Context context) {
@@ -44,11 +47,8 @@ namespace esp32.DA {
             Context.SaveChanges();
         }
 
-        public List<HistoricoProduto> HistoricoProduto(Guid Idproduto) {
-            var historico = Context.HistoricoProduto.Where(a => a.Produtoid == Idproduto).ToList();
-
-            historico.OrderBy(a => a.Data);
-
+        public IQueryable<HistoricoProduto> HistoricoProduto(Guid ProdutoId) {
+            var historico = Context.HistoricoProduto.Where(a => a.Produtoid == ProdutoId);
             return historico;
         }
     }

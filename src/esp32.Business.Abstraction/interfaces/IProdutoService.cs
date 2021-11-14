@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace esp32.Business.Abstraction.interfaces {
-    public interface IProdutoService {
+namespace esp32.Business.Abstraction.interfaces
+{
+    public interface IProdutoService
+    {
         void Delete(Guid Idproduto);
         ProdutoDTO GetById(Guid Idproduto);
         Guid Insert(ProdutoInsertDTO Produto);
@@ -15,6 +17,6 @@ namespace esp32.Business.Abstraction.interfaces {
             string pesquisa = null
             );
         void Update(ProdutoUpdateDTO produtoUpdate);
-        List<HistoricoProdutoDTO> HistoricoProduto(Guid Idproduto);
+        Paginacao<HistoricoProdutoDTO> HistoricoProduto(Guid ProdutoId, DateTime? Inicio, DateTime? Fim);
     }
 }
