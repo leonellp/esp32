@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BalancaDTO } from 'src/app/shared/DTOs/BalancaDTO';
 import { Paginacao } from 'src/app/shared/DTOs/Paginacao';
 import { ProdutoDTO } from 'src/app/shared/DTOs/ProdutoDTO';
 import { BalancaService } from 'src/app/shared/services/balanca.service';
@@ -18,6 +19,7 @@ export class EditBalancaComponent implements OnInit {
   id = '';
   produtos: Paginacao<ProdutoDTO>;
   produtoSelected: ProdutoDTO;
+  balanca: BalancaDTO;
 
   balancaForm: FormGroup;
 
@@ -45,6 +47,8 @@ export class EditBalancaComponent implements OnInit {
         this.balancaService.getById(data.id).subscribe(
           (balanca) => {
             if (balanca) {
+              this.balanca = new BalancaDTO();
+              this.balanca = balanca;
               this.balancaForm.controls['nome'].setValue(balanca.nome);
               this.balancaForm.controls['produtoId'].setValue(
                 balanca.produtoId
@@ -79,15 +83,17 @@ export class EditBalancaComponent implements OnInit {
   }
 
   selectedChanged(event: any): void {
-    this.balancaForm.controls['produtoId'].setValue(event.value.idproduto);
+    this.balancaForm.controls['produtoId'].setValue(event.value);
   }
 
   save(): void {
     this.balancaForm.markAllAsTouched();
-    console.log(this.balancaForm.value);
 
     if (this.id) {
-      this.balancaService.update(this.balancaForm.value).subscribe(
+      this.balanca.nome = this.balancaForm.controls['nome'].value;
+      this.balanca.produtoId = this.balancaForm.controls['produtoId'].value;
+
+      this.balancaService.update(this.balanca).subscribe(
         () => {
           this.snackBar.open('Balanca atulizada com sucesso!', '', {
             duration: 3000,

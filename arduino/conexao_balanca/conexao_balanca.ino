@@ -23,7 +23,7 @@ const int output26 = 26;
 const int output27 = 27;
 
 // URL da API com o ID da Balança ja definida
-String serverName = "https://192.168.0.109:5001/v1/esp/72640398-2c3c-4bed-bca7-842e0ba8389b";
+String serverName = "https://192.168.0.114:5001/v1/esp/72640398-2c3c-4bed-bca7-842e0ba8389b";
 
 // Variáveis resposável pelo timer de envio do peso para API
 unsigned long lastTime = 0;
@@ -52,7 +52,7 @@ void setup() {
   Serial.println(escala.read());   // Aguarda até o dispositivo estar pronto
   Serial.println("Nao coloque nada na balanca!");
   Serial.println("Iniciando...");
-  escala.set_scale(121.8757352941176);     // Substituir o valor encontrado para escala
+  escala.set_scale(107.6909090909091);     // Substituir o valor encontrado para escala
   escala.tare(20);                // O peso é chamado de Tare.
   Serial.println("Insira o item para Pesar");
 }

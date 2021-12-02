@@ -1,1 +1,13 @@
-<p>home works!</p>
+<mat-card class="auto-width">
+  <mat-card-header>
+    <mat-card-title fxLayout="row" fxLayoutAlign="center">
+      <b> Produtos </b>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div>
+      <canvas [data]="data" [labels]="labels" chartType="pie"> </canvas>
+    </div>
+  </mat-card-content>
+</mat-card>

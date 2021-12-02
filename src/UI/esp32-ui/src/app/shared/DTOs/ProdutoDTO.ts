@@ -1,7 +1,7 @@
 import { BalancaDTO } from './BalancaDTO';
 import { HistoricoProdutoDTO } from './HistoricoProdutoDTO';
 
-export interface ProdutoDTO {
+export class ProdutoDTO {
   idproduto: string;
   nome: string;
   marca: string;

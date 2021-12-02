@@ -1,4 +1,4 @@
-export interface BalancaDTO {
+export class BalancaDTO {
   idbalanca: string;
   peso: number;
   data: Date | string;

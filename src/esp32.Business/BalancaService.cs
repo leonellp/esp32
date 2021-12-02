@@ -75,6 +75,9 @@ namespace esp32.Business
         }
 
         public void Update(BalancaDTO balancaUpdate) {
+            if (balancaUpdate.Idbalanca == Guid.Empty)
+                throw new Exception("Id da balanca não pode ser nulo");
+
             var produto = produtoService.GetById(balancaUpdate.ProdutoId.Value);
             if(produto == null)
                 throw new Exception("Produto não encontrado ");

@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BalancaDTO } from 'src/app/shared/DTOs/BalancaDTO';
 import { Paginacao } from 'src/app/shared/DTOs/Paginacao';
+import { ProdutoDTO } from 'src/app/shared/DTOs/ProdutoDTO';
 import { BalancaService } from 'src/app/shared/services/balanca.service';
 import { ProdutoService } from 'src/app/shared/services/produto.service';
 
@@ -19,6 +20,7 @@ export class EditProdutoComponent implements OnInit {
   balancas: Paginacao<BalancaDTO>;
   balanca: BalancaDTO;
   balancaSelected = false;
+  produto: ProdutoDTO;
 
   productForm: FormGroup;
 
@@ -49,6 +51,8 @@ export class EditProdutoComponent implements OnInit {
         this.produtoService.getById(data.id).subscribe(
           (produto) => {
             if (produto) {
+              this.produto = produto;
+
               this.productForm.controls['nome'].setValue(produto.nome);
               this.productForm.controls['marca'].setValue(produto.marca);
               this.productForm.controls['peso'].setValue(produto.peso);
@@ -90,7 +94,11 @@ export class EditProdutoComponent implements OnInit {
   save(): void {
     this.productForm.markAllAsTouched();
     if (this.id) {
-      this.produtoService.update(this.productForm.value).subscribe(
+      this.produto.nome = this.productForm.controls['nome'].value;
+      this.produto.marca = this.productForm.controls['marca'].value;
+      this.produto.peso = this.productForm.controls['peso'].value;
+
+      this.produtoService.update(this.produto).subscribe(
         () => {
           this.snackBar.open('Produto atulizado com sucesso!', '', {
             duration: 3000,

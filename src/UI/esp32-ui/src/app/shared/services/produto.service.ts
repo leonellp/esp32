@@ -52,8 +52,8 @@ export class ProdutoService {
 
   historico(
     id: string,
-    inicio?: Date | null,
-    fim?: Date | null
+    inicio?: string,
+    fim?: string
   ): Observable<Paginacao<HistoricoProdutoDTO>> {
     var url = `${this.API}/${id}/historico`;
 
